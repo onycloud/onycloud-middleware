@@ -18,13 +18,11 @@
 (defn wrap-json
   [handler]
   (fn [req]
-    ;; it must be json, keywordize by default
     (let [json-req-body (if-let [body (:body req)]
                           (let [body-str (cond (string? body) body
                                                :else (slurp body))]
                             (when-not (empty? body-str)
                               (json/read-json body-str))))
-          ;; TODO better name of :json-body
           req* (assoc req
                  :json-body json-req-body)
           resp-obj (handler req*)
