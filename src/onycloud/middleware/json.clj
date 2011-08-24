@@ -16,6 +16,9 @@
    :body (json/json-str (prewalk remove-mongo-id (or body "")))})
 
 (defn wrap-json
+  "A middleware useful in RIAs. It parses the request body as JSON and
+   store it under the :json-body key in the request map and also
+   generates the reponse as a JSON string from Clojure data structure."
   [handler]
   (fn [req]
     (let [json-req-body (if-let [body (:body req)]
